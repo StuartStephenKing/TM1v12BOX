@@ -12,7 +12,7 @@
 		{
 			"Name":"pDeleteDir",
 			"Prompt":"Directory to delete",
-			"Value":"/git",
+			"Value":"/git/cubes",
 			"Type":"String"
 		}
 	],

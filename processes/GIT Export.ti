@@ -1,8 +1,9 @@
 #region Prolog
 
 # Dimension Attributes
-vAttributeExportFile = '/git/attributes/';
-ASCIIDelete( vAttributeExportFile );
+vAttributeExportFile = '/git/attributes';
+ExecuteProcess('GIT Delete Directory',
+	'pDeleteDir', vAttributeExportFile );
 
 index = 1;
 vDimension = DIMNM( '}Dimensions',index );
@@ -15,10 +16,10 @@ WHILE ( vDimension @<> '' );
 END;
 
 
-
 # Cube Data
-vDataExportFile      = '/git/cubes/';
-ASCIIDelete( vDataExportFile );
+vDataExportFile = '/git/cubes';
+ExecuteProcess('GIT Delete Directory',
+	'pDeleteDir', vDataExportFile );
 
 index = 1;
 vCube = DIMNM( '}Cubes',index );

@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}GitControl",
+	"Hierarchies@Code.links":
+	[
+		"}GitControl.hierarchies/}GitControl.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}GitControl')/Hierarchies('}GitControl')"
+	}
+}
