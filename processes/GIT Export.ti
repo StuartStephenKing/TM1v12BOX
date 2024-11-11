@@ -1,7 +1,7 @@
 #region Prolog
 
 # Dimension Attributes
-vAttributeExportFile = '/git/attributes';
+vAttributeExportFile = '/git/attributes/';
 ExecuteProcess('GIT Delete Directory',
 	'pDeleteDir', vAttributeExportFile );
 
@@ -17,7 +17,7 @@ END;
 
 
 # Cube Data
-vDataExportFile = '/git/cubes';
+vDataExportFile = '/git/cubes/';
 ExecuteProcess('GIT Delete Directory',
 	'pDeleteDir', vDataExportFile );
 
