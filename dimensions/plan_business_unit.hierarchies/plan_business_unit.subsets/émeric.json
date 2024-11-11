@@ -1,0 +1,11 @@
+{
+	"@type":"Subset",
+	"Name":"émeric",
+	"Alias":"BusinessUnit_French",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10200')"
+		}
+	]
+}

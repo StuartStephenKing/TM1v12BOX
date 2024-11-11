@@ -1,0 +1,15 @@
+{
+	"@type":"Process",
+	"Name":"GIT Export",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"GIT Export.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[],
+	"UID": "171776987100048",
+	"VariablesUIData": [],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

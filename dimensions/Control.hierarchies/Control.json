@@ -1,0 +1,32 @@
+{
+	"@type":"Hierarchy",
+	"Name":"Control",
+	"Elements":
+	[
+		{
+			"Name":"Import",
+			"Type":"String"
+		},
+		{
+			"Name":"Export",
+			"Type":"String"
+		},
+		{
+			"Name":"Clear",
+			"Type":"String"
+		},
+		{
+			"Name":"Last Transaction Export",
+			"Type":"String"
+		},
+		{
+			"Name":"Logging",
+			"Type":"String"
+		},
+		{
+			"Name":"Transaction Delta Link",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

@@ -1,0 +1,17 @@
+{
+	"@type":"Subset",
+	"Name":"Stuart Demo Set 123",
+	"Alias":"AccountName",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_chart_of_accounts')/Hierarchies('plan_chart_of_accounts')/Elements('61065')"
+		},
+		{
+			"@id":"Dimensions('plan_chart_of_accounts')/Hierarchies('plan_chart_of_accounts')/Elements('61080')"
+		},
+		{
+			"@id":"Dimensions('plan_chart_of_accounts')/Hierarchies('plan_chart_of_accounts')/Elements('61095')"
+		}
+	]
+}

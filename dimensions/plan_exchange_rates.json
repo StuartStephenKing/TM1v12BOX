@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"plan_exchange_rates",
+	"Hierarchies@Code.links":
+	[
+		"plan_exchange_rates.hierarchies/plan_exchange_rates.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('plan_exchange_rates')/Hierarchies('plan_exchange_rates')"
+	}
+}

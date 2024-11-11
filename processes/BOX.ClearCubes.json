@@ -1,0 +1,15 @@
+{
+	"@type":"Process",
+	"Name":"BOX.ClearCubes",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"BOX.ClearCubes.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[],
+	"UID": "1717771701000134",
+	"VariablesUIData": [],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

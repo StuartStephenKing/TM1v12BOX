@@ -1,0 +1,97 @@
+#region Prolog
+vClientID_BOX     = ATTRS( '}Clients', TM1User, 'ClientID_BOX' );
+vClientSecret_BOX = ATTRS( '}Clients', TM1User, 'ClientSecret_BOX' );
+vBOXSubjectID = ATTRS( '}Clients', TM1User, 'BOXSubjectID' );
+
+vProcessName = 'BOX.Write';
+vNow         = TIMST (NOW(), '\Y_\m_\d_\h_\i_\s' );
+vLogFile     = '/Process Logs/' | vProcessName | '_' | vNow | '.log';
+
+vExportFileName = pCube | '_' | vNow | '.csv';
+vExportFile     = pDir | pCube | '_' | vNow | '.csv';
+vView           = 'GIT';
+
+vDimCount = CubeDimensionCountGet ( pCube );
+vIndex    = 1;
+vDim      = TABDIM ( pCube, vIndex );
+VIEWCREATE ( pCube, vView, 1 );
+WHILE (vDim @<> '');
+    ViewColumnDimensionSet( pCube, vView, vDim, vIndex );
+    IF ( SubsetExists( vDim, vView ) = 0 );
+        subsetMDX = 'TM1FILTERBYLEVEL({{[' | vDim | '].[' | vDim | '].MEMBERS}}, 0)';
+        SubsetCreateByMDX ( vView, subsetMDX, vDim, 1 );
+    ENDIF;
+    ViewSubsetAssign ( pCube, vView, vDim, vView );
+    vIndex = vIndex + 1;
+    vDim   = TABDIM(pCube, vIndex);
+END;
+
+DataSourceType='VIEW';
+DatasourceNameForServer=pCube;
+DatasourceCubeview=vView;
+
+ViewExtractSkipCalcsSet ( pCube, vView, 1 );
+ViewExtractSkipRuleValuesSet ( pCube, vView, 1 );
+ViewExtractSkipZeroesSet ( pCube, vView, 1 );
+
+
+
+#endregion
+#region Data
+IF (vDimCount = 2);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3 );
+ELSEIF (vDimCount = 3);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4 );
+ELSEIF (vDimCount = 4);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5 );
+ELSEIF (vDimCount = 5);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6 );
+ELSEIF (vDimCount = 6);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7 );
+ELSEIF (vDimCount = 7);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8 );
+ELSEIF (vDimCount = 8);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9 );
+ELSEIF (vDimCount = 9);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10 );
+ELSEIF (vDimCount = 10);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11 );
+ELSEIF (vDimCount = 11);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12 );
+ELSEIF (vDimCount = 12);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13 );
+ENDIF;
+
+#endregion
+#region Epilog
+#Get Token
+vBOXAuthURL  = 'https://api.box.com/oauth2/token';
+ExecuteHttpRequest( 'POST', vBOXAuthURL, '-k', '-h Content-Type:application/x-www-form-urlencoded', '-d client_id=' | vClientID_BOX | '&client_secret=' | vClientSecret_BOX | '&grant_type=client_credentials&box_subject_type=enterprise&box_subject_id=' | vBOXSubjectID );
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+    ProcessQuit;
+ELSE;
+    vBearerToken = JsonToString ( vResponseBody, 'access_token', -1, ' ');
+    ASCIIOUTPUT( vLogFile, 'Retrieved bearer token:' | vBearerToken);
+ENDIF;
+
+#Write file content to BOX
+IF ( FileExists ( vExportFile ) = 1 );
+    vBOXURL = 'https://upload.box.com/api/2.0/files/content';
+    ASCIIOUTPUT( vLogFile, 'URL: ' | vBOXURL);
+    ExecuteHttpRequest( 'POST', vBOXURL, '-k', '-h Authorization:Bearer ' | vBearerToken, '-f attributes={"name":"' | pCube  | '.csv", "parent":{"id":"' | pBOXFolderID | '"}}', '-f file=@' | vExportFile);
+
+    vResponseCode = HttpResponseGetStatusCode();
+    vResponseBody = HttpResponseGetBody();
+    IF ( vResponseCode <> 201 );
+        ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode));
+        ProcessQuit;
+    ENDIF;
+ENDIF;
+
+
+ASCIIDelete ( vExportFile );
+#endregion

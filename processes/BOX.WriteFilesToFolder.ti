@@ -1,0 +1,57 @@
+#region Prolog
+vBoxParentFolderID  = CellGetS( 'ModelControl', 'BOX Parent Folder ID', 'Value' );
+vClientID_BOX     = ATTRS( '}Clients', TM1User, 'ClientID_BOX' );
+vClientSecret_BOX = ATTRS( '}Clients', TM1User, 'ClientSecret_BOX' );
+vBOXSubjectID = ATTRS( '}Clients', TM1User, 'BOXSubjectID' );
+vProcessName = 'BOX.WriteFilesToFolder';
+vNow         = TIMST (NOW(), '\Y_\m_\d_\h_\i_\s' );
+vLogFile     = '/Process Logs/' | vProcessName | '_' | vNow | '.log';
+
+
+#Get Token
+vBOXAuthURL  = 'https://api.box.com/oauth2/token';
+ExecuteHttpRequest( 'POST', vBOXAuthURL, '-k', '-h Content-Type:application/x-www-form-urlencoded', '-d client_id=' | vClientID_BOX | '&client_secret=' | vClientSecret_BOX | '&grant_type=client_credentials&box_subject_type=enterprise&box_subject_id=' | vBOXSubjectID );
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+        ProcessQuit;
+    ELSE;
+    vBearerToken = JsonToString ( vResponseBody, 'access_token', -1, ' ');
+    ASCIIOUTPUT( vLogFile, 'Retrieved bearer token:' | vBearerToken);
+ENDIF;
+
+
+#Create folder in BOX
+vBOXURL = 'https://api.box.com/2.0/folders';
+ASCIIOUTPUT( vLogFile, 'URL: ' | vBOXURL);
+ExecuteHttpRequest( 'POST', vBOXURL, '-k', '-h Authorization:Bearer ' | vBearerToken, '-d {"name": "Export_' | vNow | '", "parent":{"id": "' | vBoxParentFolderID | '"}}');
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF ( vResponseCode <> 201 );
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode));
+        ProcessQuit;
+    ELSE;
+    vNewFolderID = JsonToString ( vResponseBody, 'id' );
+ENDIF;
+
+
+
+index = 1;
+vCube = DIMNM ( '}Cubes', index );
+WHILE ( vCube @<> '' );
+    IF ( CellGetS ( 'CubeControl', vCube, 'Export' ) @= 'Y' );
+        ASCIIOutput ( vLogFile, vCube );
+        ExecuteProcess ( 'BOX.Write', 'pCube', vCube, 'pBOXFolderID', vNewFolderID, 'pDir', '/Export' );
+    ENDIF;
+    index = index + 1;
+    vCube = DIMNM ( '}Cubes', index );
+END; 
+#endregion
+#region Epilog
+
+CellPutS ( vNewFolderID, 'ModelControl', 'BOX Last Export Folder ID', 'Value' );
+ExecuteProcess ( 'Slack Message', 'pMessage', 'Export complete!  BOX Folder: https://ibm.ent.box.com/folder/' | vNewFolderID );
+#endregion

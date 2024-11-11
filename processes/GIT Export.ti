@@ -1,0 +1,34 @@
+#region Prolog
+
+# Dimension Attributes
+vAttributeExportFile = '/git/attributes/';
+ASCIIDelete( vAttributeExportFile );
+
+index = 1;
+vDimension = DIMNM( '}Dimensions',index );
+WHILE ( vDimension @<> '' );
+    IF ( CellGetS( '}GitDimensions', vDimension, 'Push' ) @= 'Y' );
+        ExecuteProcess('GIT Export Attributes', 'pDimension', vDimension, 'pDir', vAttributeExportFile );
+    ENDIF;
+    index = index + 1;
+    vDimension = DIMNM( '}Dimensions',index );
+END;
+
+
+
+# Cube Data
+vDataExportFile      = '/git/cubes/';
+ASCIIDelete( vDataExportFile );
+
+index = 1;
+vCube = DIMNM( '}Cubes',index );
+WHILE ( vCube @<> '' );
+    IF ( CellGetS( '}GitCubes', vCube, 'Push' ) @= 'Y' );
+        ExecuteProcess ( 'GIT Export Data', 'pCube', vCube, 'pDir', vDataExportFile );
+    ENDIF;
+    index = index + 1;
+    vCube = DIMNM( '}Cubes',index );
+END;
+
+
+#endregion

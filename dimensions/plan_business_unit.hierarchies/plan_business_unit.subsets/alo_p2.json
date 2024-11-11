@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"alo_p2",
+	"Alias":"BusinessUnit",
+	"Expression":"TM1IGNORE_BADTUPLES {HIERARCHIZE(EXCEPT(TM1SUBSETALL([plan_business_unit]) , {[plan_business_unit].[plan_business_unit].[10000],[plan_business_unit].[plan_business_unit].[10100],[plan_business_unit].[plan_business_unit].[10200],[plan_business_unit].[plan_business_unit].[10300],[plan_business_unit].[plan_business_unit].[10400]}))}"
+}

@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"All Versions",
+	"Alias":"VersionName",
+	"Expression":"{TM1FILTERBYLEVEL( { HIERARCHIZE( {TM1SUBSETALL( [plan_version] )} ) }, 0)}"
+}

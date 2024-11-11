@@ -1,0 +1,23 @@
+{
+	"@type":"Process",
+	"Name":"GIT Delete Directory",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"GIT Delete Directory.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pDeleteDir",
+			"Prompt":"Directory to delete",
+			"Value":"/git",
+			"Type":"String"
+		}
+	],
+	"Variables":[],
+	"UID": "1726233676000",
+	"VariablesUIData": [],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

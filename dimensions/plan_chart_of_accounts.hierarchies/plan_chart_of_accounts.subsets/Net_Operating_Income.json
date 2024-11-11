@@ -1,0 +1,7 @@
+{
+	"@type":"Subset",
+	"Name":"Net_Operating_Income",
+	"ExpandAbove":true,
+	"Alias":"AccountName",
+	"Expression":"Descendants ([plan_chart_of_accounts].[Net Operating Income]) }, SELF_AND_AFTER"
+}

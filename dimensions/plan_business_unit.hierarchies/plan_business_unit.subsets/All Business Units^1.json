@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"All Business Units^1",
+	"Alias":"BusinessUnit",
+	"Expression":"TM1IGNORE_BADTUPLES {ORDER(TM1SUBSETALL([plan_business_unit]) , IIF([plan_business_unit].[plan_business_unit].CURRENTMEMBER.PROPERTIES(\"BusinessUnit\")=\"\", [plan_business_unit].[plan_business_unit].CURRENTMEMBER.PROPERTIES(\"MEMBER_CAPTION\"), [plan_business_unit].[plan_business_unit].CURRENTMEMBER.PROPERTIES(\"BusinessUnit\")) , ASC)}"
+}

@@ -1,0 +1,35 @@
+{
+	"@type":"Subset",
+	"Name":"FilteredLevel & Attr",
+	"Alias":"BusinessUnit",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10000')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10100')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10110')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10120')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10200')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10210')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10220')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10300')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10400')"
+		}
+	]
+}

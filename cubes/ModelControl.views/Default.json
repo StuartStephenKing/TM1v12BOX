@@ -1,0 +1,13 @@
+{
+	"@type":"MDXView",
+	"Name":"Default",
+	"MDX@Code.link":"Default.mdx",
+	"Meta": {
+		"Aliases": {},
+		"ExpandAboves": {
+			"[ControlValue].[ControlValue]": false,
+			"[ModelControl].[ModelControl]": false
+		},
+		"ContextSets": {}
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"@type":"Subset",
+	"Name":"SubsetWithTEXTAlias",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10000')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10100')"
+		}
+	]
+}

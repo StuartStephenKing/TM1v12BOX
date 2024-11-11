@@ -1,0 +1,16 @@
+#region Prolog
+
+vDir = pDeleteDir;
+vFile = WildcardFileSearch ( vDir |'/*', '' );
+vLastFile = vFile;
+While( vFile @<> '');
+    ASCIIDelete( vDir | '/' | vFile );
+    vFile = WildcardFileSearch (  vDir |'/*', '' );
+    IF (vLastFile @= vFile);
+        ExecuteProcess( 'Delete directory', 'pDeleteDir', vDir | '/' | vFile );
+    ENDIF;
+    vLastFile = vFile;
+End;
+ASCIIDelete( vDir );
+
+#endregion

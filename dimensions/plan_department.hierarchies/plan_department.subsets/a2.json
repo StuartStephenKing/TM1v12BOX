@@ -1,0 +1,14 @@
+{
+	"@type":"Subset",
+	"Name":"a2",
+	"Alias":"Department",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_department')/Hierarchies('plan_department')/Elements('105')"
+		},
+		{
+			"@id":"Dimensions('plan_department')/Hierarchies('plan_department')/Elements('110')"
+		}
+	]
+}

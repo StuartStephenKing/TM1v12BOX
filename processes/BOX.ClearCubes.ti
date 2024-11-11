@@ -1,0 +1,12 @@
+#region Prolog
+index = 1;
+vCube = DIMNM ( '}Cubes', index );
+WHILE ( vCube @<> '' );
+    IF ( CellGetS ( 'CubeControl', vCube, 'Clear' ) @= 'Y' );
+        CubeClearData ( vCube );
+    ENDIF;
+    index = index + 1;
+    vCube = DIMNM ( '}Cubes', index );
+END; 
+
+#endregion

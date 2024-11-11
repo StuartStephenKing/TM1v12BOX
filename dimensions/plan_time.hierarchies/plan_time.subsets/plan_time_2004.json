@@ -1,0 +1,11 @@
+{
+	"@type":"Subset",
+	"Name":"plan_time_2004",
+	"Alias":"Time",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_time')/Hierarchies('plan_time')/Elements('2004')"
+		}
+	]
+}

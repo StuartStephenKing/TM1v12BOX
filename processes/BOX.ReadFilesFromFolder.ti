@@ -1,0 +1,70 @@
+#region Prolog
+vBOXFolderID = CellGetS ( 'ModelControl', 'BOX Last Export Folder ID', 'Value' );
+
+vClientID_BOX     = ATTRS( '}Clients', TM1User, 'ClientID_BOX' );
+vClientSecret_BOX = ATTRS( '}Clients', TM1User, 'ClientSecret_BOX' );
+vBOXSubjectID = ATTRS( '}Clients', TM1User, 'BOXSubjectID' );
+
+vProcessName = 'BOX.ReadFolder';
+vNow         = TIMST (NOW(), '\Y_\m_\d_\h_\i_\s' );
+vLogFile     = '/Process Logs/' | vProcessName | '_' | vNow | '.log';
+
+DatasourceASCIIQuoteCharacter = '';
+
+#Get Token
+vBOXAuthURL  = 'https://api.box.com/oauth2/token';
+ExecuteHttpRequest( 'POST', vBOXAuthURL, '-k', '-h Content-Type:application/x-www-form-urlencoded', '-d client_id=' | vClientID_BOX | '&client_secret=' | vClientSecret_BOX | '&grant_type=client_credentials&box_subject_type=enterprise&box_subject_id=' | vBOXSubjectID );
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+    ProcessQuit;
+ELSE;
+    vBearerToken = JsonToString ( vResponseBody, 'access_token', -1, ' ');
+    ASCIIOUTPUT( vLogFile, 'Retrieved bearer token:' | vBearerToken);
+ENDIF;
+
+
+#Read Folder
+vBOXURL = 'https://api.box.com/2.0/folders/' | vBOXFolderID;
+ASCIIOUTPUT( vLogFile, 'URL: ' | vBOXURL);
+
+ExecuteHttpRequest( 'GET', vBOXURL, '-k', '-h Authorization:Bearer ' | vBearerToken);
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 302 & vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+    ProcessQuit;
+ELSE;
+    vJson_item_collection = JsonGet( vResponseBody, 'item_collection' ); 
+    vJsonArraySize        = JsonSize ( vJson_item_collection, 'entries' );
+    vJson_entries         = JsonGet( vJson_item_collection, 'entries' ); 
+    vJarrayIndex          = 0;
+    WHILE ( vJarrayIndex < vJsonArraySize );
+        vJsonEntry     = JsonGet ( vJson_entries, vJarrayIndex  );
+        vJsonEntryID   = JsonToString ( vJsonEntry, 'id' );
+        vJsonEntryType = JsonToString ( vJsonEntry, 'type' );
+        vJsonEntryname = JsonToString ( vJsonEntry, 'name' );
+
+        IF ( vJsonEntryType @= 'file' );
+            #ASCIIOUTPUT ( vLogFile, NUMBERTOSTRING ( vJarrayIndex ) | ' ' | vJsonEntryID | ' ' | vJsonEntryname );
+            #ASCIIOUTPUT ( vLogFile, 'LONG: ' | NumberToString ( LONG ( vJsonEntryname ) ) | ' SCAN: ' | NumberToString ( SCAN ( '.csv', LOWER ( vJsonEntryname ) ) ) );
+            IF ( SCAN ( '.csv', LOWER ( vJsonEntryname ) ) = LONG ( vJsonEntryname ) - 3 );
+                vCube = SUBST ( vJsonEntryname, 1, LONG ( vJsonEntryname ) - 4 );
+                ASCIIOUTPUT ( vLogFile, NUMBERTOSTRING ( vJarrayIndex ) | ' ' | vJsonEntryID | ' ' | vJsonEntryname );
+                ASCIIOUTPUT ( vLogFile, 'Loading to cube: ' | vCube );
+                IF ( CellGetS ( 'CubeControl', vCube, 'Import' ) @= 'Y' );
+                    ExecuteProcess ( 'BOX.Read', 'pCube', vCube, 'pBoxFileID', vJsonEntryID );
+                ENDIF;
+            ENDIF;
+        ELSE;
+            #ASCIIOUTPUT( vLogFile, NUMBERTOSTRING ( vJarrayIndex ) | ' ' | vJsonEntryType | ' ' |  vJsonEntryID | ' ' | vJsonEntryname );
+        ENDIF;
+        vJarrayIndex = vJarrayIndex + 1;
+    END;
+ENDIF;
+#endregion
+#region Epilog
+ExecuteProcess ( 'Slack Message', 'pMessage', 'Import cube leaf data from BOX complete!' );
+#endregion

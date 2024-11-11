@@ -1,0 +1,32 @@
+#region Prolog
+
+vCube = '}ElementAttributes_' | pDimension;
+
+IF ( CubeExists( vCube ) = 0 );
+    ProcessBreak;
+endif;
+
+
+
+vView = '}git';
+vExportFile     = pDir | pDimension | '.csv';
+
+VIEWCREATE ( vCube, vView, 1 );
+ViewColumnDimensionSet( vCube, vView, pDimension, 1 );
+SubsetCreateByMDX ( vView, '[' | pDimension | '].[' | pDimension | '].MEMBERS', pDimension, 1 );
+ViewSubsetAssign ( vCube, vView, pDimension, vView );
+ViewColumnDimensionSet( vCube, vView, vCube, 2 );
+SubsetCreateByMDX ( vView, '[' | vCube | '].[' | vCube | '].MEMBERS', vCube, 1 );
+ViewSubsetAssign ( vCube, vView, vCube, vView );
+
+DataSourceType          = 'VIEW';
+DatasourceNameForServer = vCube;
+DatasourceCubeview      = vView;
+
+#endregion
+#region Data
+
+vAttributeType = DTYPE (vCube, v2);
+ASCIIOUTPUT(vExportFile, vAttributeType, v1, v2, value );
+
+#endregion

@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"plan_BudgetPlan_Export_20240506123003",
+	"Expression":"[plan_version].[plan_version].MEMBERS"
+}

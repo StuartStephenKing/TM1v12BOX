@@ -1,0 +1,179 @@
+#region Prolog
+
+vClientID_BOX = ATTRS( '}Clients', TM1User, 'ClientID_BOX' );
+vClientSecret_BOX = ATTRS( '}Clients', TM1User, 'ClientSecret_BOX' );
+vBOXSubjectID = ATTRS( '}Clients', TM1User, 'BOXSubjectID' );
+
+vProcessName = 'Read File From BOX';
+vNow         = TIMST (NOW(), '\Y_\m_\d_\h_\i_\s' );
+vLogFile     = '/Process Logs/' | vProcessName | '_' | vNow | '.log';
+
+vLastDimIndex = CubeDimensionCountGet( pCube );
+vLastDim      = TABDIM( pCube, vLastDimIndex );
+
+ASCIIOUTPUT( vLogFile, 'vClientID_BOX: ' | vClientID_BOX);
+ASCIIOUTPUT( vLogFile, 'vClientSecret_BOX: ' | vClientSecret_BOX);
+
+#Get Token
+vBOXAuthURL  = 'https://api.box.com/oauth2/token';
+
+ExecuteHttpRequest( 'POST', vBOXAuthURL, '-k', '-h Content-Type:application/x-www-form-urlencoded',
+    '-d client_id=' | vClientID_BOX | '&client_secret=' | vClientSecret_BOX | '&grant_type=client_credentials&box_subject_type=enterprise&box_subject_id=' | vBOXSubjectID );
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+    ProcessQuit;
+ELSE;
+    vBearerToken = JsonToString ( vResponseBody, 'access_token', -1, ' ');
+    ASCIIOUTPUT( vLogFile, 'Retrieved bearer token:' | vBearerToken);
+ENDIF;
+
+#Get data source file
+vDataSourceFile = '/Imports/plan_BudgetPlan_' | vNow | '.csv';
+vBOXURL         = 'https://api.box.com/2.0/files/' | pBOXFileID | '/content';
+ASCIIOUTPUT( vLogFile, 'URL: ' | vBOXURL);
+
+ExecuteHttpRequest( 'GET', vBOXURL, '-k', '-h Authorization:Bearer ' | vBearerToken, '-o ' | vDataSourceFile);
+vResponseCode2 = HttpResponseGetStatusCode();
+vResponseBody2 = HttpResponseGetBody();
+IF (vResponseCode2 <> 302 & vResponseCode2 <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode2) | ' ' | vResponseBody2);
+    ProcessQuit;
+ENDIF;
+
+DataSourceType          = 'CHARACTERDELIMITED';
+DatasourceNameForServer = vDataSourceFile;
+
+
+#endregion
+#region Data
+IF ( vLastDimIndex = 2 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2 ) = 1);
+        IF ( DTYPE ( vLastDim , v2 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v3 ), pCube, v1, v2 );
+        ELSE;
+            CELLPUTS ( v3, pCube, v1, v2 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 3 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2, v3 ) = 1);
+        IF ( DType ( vLastDim , v3 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v4 ), pCube, v1, v2, v3 );
+        ELSE;
+            CELLPUTS ( v4, pCube, v1, v2, v4 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 4 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2, v3, v4 ) = 1);
+        IF ( DTYPE ( vLastDim , v4 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v5 ), pCube, v1, v2, v3, v4 );
+        ELSE;
+            CELLPUTS ( v5, pCube, v1, v2, v4, v5 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 5 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2, v3, v4, v5 ) = 1);
+        IF ( DTYPE ( vLastDim , v5 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v6 ), pCube, v1, v2, v3, v4, v5 );
+        ELSE;
+            CELLPUTS ( v6, pCube, v1, v2, v4, v5, v6 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 6 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2, v3, v4, v5, v6 ) = 1);
+        IF ( DTYPE ( vLastDim , v6 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v7 ), pCube, v1, v2, v3, v4, v5, v6 );
+        ELSE;
+            CELLPUTS ( v7, pCube, v1, v2, v4, v5, v6, v7 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 7 );
+    ASCIIOutput('debug.txt', pCube, v1, v2, v3, v4, v5, v6, v7 );
+    IF (CELLISUPDATEABLE  ( pCube, v1, v2, v3, v4, v5, v6, v7 ) = 1);
+        IF ( DTYPE ( vLastDim , v7 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v8 ), pCube, v1, v2, v3, v4, v5, v6, v7 );
+        ELSE;
+            CELLPUTS ( v8, pCube, v1, v2, v3, v4, v5, v6, v7 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 8 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8 ) = 1);
+        IF ( DTYPE ( vLastDim , v8 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v9 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8 );
+        ELSE;
+            CELLPUTS ( v9, pCube, v1, v2, v3, v4, v5, v6, v7, v8 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 9 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9 ) = 1);
+        IF ( DTYPE ( vLastDim , v9 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v10 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9 );
+        ELSE;
+            CELLPUTS ( v10, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 10);
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10 ) = 1);
+        IF ( DTYPE ( vLastDim , v10 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v11 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10 );
+        ELSE;
+            CELLPUTS ( v11, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 11 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11 ) = 1);
+        IF ( DTYPE ( vLastDim , v11 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v12 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11 );
+        ELSE;
+            CELLPUTS ( v12, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 12 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12 ) = 1);
+        IF ( DTYPE ( vLastDim , v12 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v13 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12 );
+        ELSE;
+            CELLPUTS ( v13, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 13 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13 ) = 1);
+        IF ( DTYPE ( vLastDim , v13 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v14 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13 );
+        ELSE;
+            CELLPUTS ( v14, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 14);
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14 ) = 1);
+        IF ( DTYPE ( vLastDim , v14 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v15 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14 );
+        ELSE;
+            CELLPUTS ( v15, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 15 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15 ) = 1);
+        IF ( DTYPE ( vLastDim , v15 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v16 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15 );
+        ELSE;
+            CELLPUTS ( v16, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15 );
+        ENDIF;
+    ENDIF;
+ELSEIF ( vLastDimIndex = 16 );
+    IF ( CELLISUPDATEABLE( pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16 ) = 1);
+        IF ( DTYPE ( vLastDim , v16 ) @= 'N' );
+            CELLPUTN ( StringToNumber ( v17 ), pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16 );
+        ELSE;
+            CELLPUTS ( v17, pCube, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16 );
+        ENDIF;
+    ENDIF;
+ENDIF;
+
+
+#endregion
+#region Epilog
+ASCIIDelete ( vDataSourceFile );
+#endregion

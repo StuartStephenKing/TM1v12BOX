@@ -1,0 +1,37 @@
+#region Prolog
+
+IF ( DimensionExists( '}GitControl' ) = 0 );
+    DimensionCreate( '}GitControl' );
+    DimensionElementInsertDirect( '}GitControl', '', 'Push', 'S' );
+ENDIF;
+
+IF ( CubeExists( '}GitCubes' ) = 0 );
+    CubeCreate( '}GitCubes', '}Cubes', '}GitControl' );
+ENDIF;
+
+IF ( CubeExists( '}GitDimensions' ) = 0 );
+    CubeCreate( '}GitDimensions', '}Dimensions', '}GitControl' );
+ENDIF;
+
+vAttributeExportFile = '/git/attributes/';
+vDataExportFile      = '/git/cubes/';
+
+vFile = WildcardFileSearch ( vAttributeExportFile | '*', '' );
+While( vFile @<> '');
+  ExecuteProcess( 'GIT Import Attributes', 'pFile', vFile, 'pDir', vAttributeExportFile );
+  vFile = WildcardFileSearch (  vAttributeExportFile | '*', vFile );
+End;
+
+vFile = WildcardFileSearch ( vDataExportFile | '/*', '' );
+While( vFile @<> '');
+  ExecuteProcess( 'GIT Import Data', 'pFile', vFile, 'pDir', vDataExportFile );
+  vFile = WildcardFileSearch (  vDataExportFile | '/*', vFile );
+End;
+
+
+#endregion
+#region Epilog
+
+ExecuteProcess ( 'GIT Delete Directory', 'pDeleteDir', '/git' );
+
+#endregion

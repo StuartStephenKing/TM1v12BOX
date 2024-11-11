@@ -1,0 +1,40 @@
+{
+	"@type":"Hierarchy",
+	"Name":"plan_version",
+	"Elements":
+	[
+		{
+			"Name":"FY 2003 Budget",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FY 2004 Budget",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FY 2004 Forecast",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FY 2005 Budget-baseline",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FY 2005 Budget-upside",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"plan_version.subsets/All Versions.json",
+		"plan_version.subsets/Default.json",
+		"plan_version.subsets/FY 2004 Budget.json",
+		"plan_version.subsets/plan_BudgetPlan_Export_20240506115657.json",
+		"plan_version.subsets/plan_BudgetPlan_Export_20240506115819.json",
+		"plan_version.subsets/plan_BudgetPlan_Export_20240506123003.json",
+		"plan_version.subsets/plan_BudgetPlan_Export_20240506153350.json",
+		"plan_version.subsets/plan_version_set.json",
+		"plan_version.subsets/test.json",
+		"plan_version.subsets/u8.json"
+	]
+}

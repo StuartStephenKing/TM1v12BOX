@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"d1",
+	"Alias":"BusinessUnit",
+	"Expression":"TM1IGNORE_BADTUPLES {DRILLDOWNMEMBER({[plan_business_unit].[plan_business_unit].[10100]} , {[plan_business_unit].[plan_business_unit].[10100]} , RECURSIVE)}"
+}

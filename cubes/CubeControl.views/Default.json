@@ -1,0 +1,34 @@
+{
+	"@type":"NativeView",
+	"Name":"Default",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('Control')/Hierarchies('Control')"
+				},
+				"Expression":"{[Control].[Control].MEMBERS}"
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}Cubes')/Hierarchies('}Cubes')"
+				},
+				"Expression":"{[}Cubes].[}Cubes].[plan_BudgetPlan],[}Cubes].[}Cubes].[plan_BudgetPlanLineItem],[}Cubes].[}Cubes].[plan_Control],[}Cubes].[}Cubes].[plan_ExchangeRate],[}Cubes].[}Cubes].[plan_Report]}"
+			}
+		}
+	],
+	"Titles":[],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":""
+}

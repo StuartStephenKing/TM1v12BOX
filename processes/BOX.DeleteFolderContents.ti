@@ -1,0 +1,62 @@
+#region Prolog
+
+vBOXFolderID = CellGetS( 'ModelControl', 'BOX Parent Folder ID', 'Value' );
+
+vClientID_BOX     = ATTRS( '}Clients', TM1User, 'ClientID_BOX' );
+vClientSecret_BOX = ATTRS( '}Clients', TM1User, 'ClientSecret_BOX' );
+vBOXSubjectID = ATTRS( '}Clients', TM1User, 'BOXSubjectID' );
+
+vProcessName = GetProcessName();
+vNow         = TIMST (NOW(), '\Y_\m_\d_\h_\i_\s' );
+vLogFile     = '/Process Logs/' | vProcessName | '_' | vNow | '.log';
+
+DatasourceASCIIQuoteCharacter = '';
+
+#Get Token
+vBOXAuthURL  = 'https://api.box.com/oauth2/token';
+ExecuteHttpRequest( 'POST', vBOXAuthURL, '-k', '-h Content-Type:application/x-www-form-urlencoded', '-d client_id=' | vClientID_BOX | '&client_secret=' | vClientSecret_BOX | '&grant_type=client_credentials&box_subject_type=enterprise&box_subject_id=' | vBOXSubjectID );
+
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+IF (vResponseCode <> 200);
+    ASCIIOUTPUT( vLogFile, NumberToString(vResponseCode) | ' ' | vResponseBody);
+    ProcessQuit;
+    ELSE;
+    vBearerToken = JsonToString ( vResponseBody, 'access_token', -1, ' ');
+    ASCIIOUTPUT( vLogFile, 'Retrieved bearer token:' | vBearerToken);
+ENDIF;
+
+
+#Read Folder
+vURL = 'https://api.box.com/2.0/folders/' | vBOXFolderID;
+ASCIIOUTPUT( vLogFile, 'GET ' | vURL);
+ExecuteHttpRequest( 'GET', vURL, '-k', '-h Authorization:Bearer ' | vBearerToken);
+vResponseCode = HttpResponseGetStatusCode();
+vResponseBody = HttpResponseGetBody();
+ASCIIOUTPUT( vLogFile, NumberToString( vResponseCode ) | ' ' | vResponseBody);
+IF ( vResponseCode <> 200 );
+    ProcessQuit;
+ELSE;
+    vJson_item_collection = JsonGet( vResponseBody, 'item_collection' ); 
+    vJsonArraySize        = JsonSize ( vJson_item_collection, 'entries' );
+    vJson_entries         = JsonGet( vJson_item_collection, 'entries' ); 
+    vJarrayIndex          = 0;
+    WHILE ( vJarrayIndex < vJsonArraySize );
+        vJsonEntry     = JsonGet ( vJson_entries, vJarrayIndex  );
+        vJsonEntryID   = JsonToString ( vJsonEntry, 'id' );
+        vJsonEntryType = JsonToString ( vJsonEntry, 'type' );
+        vJsonEntryname = JsonToString ( vJsonEntry, 'name' );
+
+        vURL = 'https://api.box.com/2.0/folders/' | vJsonEntryID | '?recursive=true';
+        ASCIIOUTPUT( vLogFile, 'DELETE ' | vURL);
+        ExecuteHttpRequest( 'DELETE', vURL, '-k', '-h Authorization:Bearer ' | vBearerToken );
+        vResponseCode = HttpResponseGetStatusCode();
+        vResponseBody = HttpResponseGetBody();
+        ASCIIOUTPUT( vLogFile, NumberToString( vResponseCode ) | ' ' | vResponseBody);
+        vJarrayIndex = vJarrayIndex + 1;
+    END;
+    
+    
+ENDIF;
+
+#endregion

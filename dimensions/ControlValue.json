@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ControlValue",
+	"Hierarchies@Code.links":
+	[
+		"ControlValue.hierarchies/ControlValue.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ControlValue')/Hierarchies('ControlValue')"
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"@type":"Process",
+	"Name":"BOX.DeleteFolderContents",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"BOX.DeleteFolderContents.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[],
+	"UID": "1717771701000135",
+	"VariablesUIData": [],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

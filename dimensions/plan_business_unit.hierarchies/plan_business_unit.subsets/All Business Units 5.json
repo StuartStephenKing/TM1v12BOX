@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"All Business Units 5",
+	"Alias":"BusinessUnit_French",
+	"Expression":"TM1IGNORE_BADTUPLES {DRILLUPMEMBER(HIERARCHIZE(TM1SUBSETALL([plan_business_unit])) , {[plan_business_unit].[plan_business_unit].[10100]})}"
+}

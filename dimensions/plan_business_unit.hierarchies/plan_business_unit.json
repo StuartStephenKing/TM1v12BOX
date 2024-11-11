@@ -1,0 +1,111 @@
+{
+	"@type":"Hierarchy",
+	"Name":"plan_business_unit",
+	"Elements":
+	[
+		{
+			"Name":"10000",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"10100",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"10110",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10120",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10200",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"10210",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10220",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10300",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10400",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"10000",
+			"ComponentName":"10100",
+			"Weight":1
+		},
+		{
+			"ParentName":"10000",
+			"ComponentName":"10200",
+			"Weight":1
+		},
+		{
+			"ParentName":"10000",
+			"ComponentName":"10300",
+			"Weight":1
+		},
+		{
+			"ParentName":"10000",
+			"ComponentName":"10400",
+			"Weight":1
+		},
+		{
+			"ParentName":"10100",
+			"ComponentName":"10110",
+			"Weight":1
+		},
+		{
+			"ParentName":"10100",
+			"ComponentName":"10120",
+			"Weight":1
+		},
+		{
+			"ParentName":"10200",
+			"ComponentName":"10210",
+			"Weight":1
+		},
+		{
+			"ParentName":"10200",
+			"ComponentName":"10220",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"plan_business_unit.subsets/12165.json",
+		"plan_business_unit.subsets/13018.json",
+		"plan_business_unit.subsets/9653.json",
+		"plan_business_unit.subsets/All Business Units.json",
+		"plan_business_unit.subsets/All Business Units 5.json",
+		"plan_business_unit.subsets/All Business Units^1.json",
+		"plan_business_unit.subsets/alo_p2.json",
+		"plan_business_unit.subsets/d.json",
+		"plan_business_unit.subsets/d1.json",
+		"plan_business_unit.subsets/Default.json",
+		"plan_business_unit.subsets/FilteredLevel & Attr.json",
+		"plan_business_unit.subsets/n level business unit.json",
+		"plan_business_unit.subsets/n level business unit 2.json",
+		"plan_business_unit.subsets/rk2.json",
+		"plan_business_unit.subsets/st.json",
+		"plan_business_unit.subsets/Subset_Norwegian.json",
+		"plan_business_unit.subsets/SubsetWithTEXTAlias.json",
+		"plan_business_unit.subsets/t1.json",
+		"plan_business_unit.subsets/TotalBU and Geography.json",
+		"plan_business_unit.subsets/} plan subset.json",
+		"plan_business_unit.subsets/}subset plan business unit.json",
+		"plan_business_unit.subsets/émeric.json"
+	]
+}

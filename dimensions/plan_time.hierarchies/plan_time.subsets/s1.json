@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"s1",
+	"Alias":"Time",
+	"Expression":"TM1IGNORE_BADTUPLES {DRILLDOWNMEMBER({[plan_time].[plan_time].[Q2-2005]} , {[plan_time].[plan_time].[Q2-2005]} , RECURSIVE)}"
+}

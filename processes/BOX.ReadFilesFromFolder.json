@@ -1,0 +1,15 @@
+{
+	"@type":"Process",
+	"Name":"BOX.ReadFilesFromFolder",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"BOX.ReadFilesFromFolder.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[],
+	"UID": "1717771701000137",
+	"VariablesUIData": [],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

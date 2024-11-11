@@ -1,0 +1,7 @@
+{
+	"@type":"Subset",
+	"Name":"d",
+	"ExpandAbove":true,
+	"Alias":"BusinessUnit",
+	"Expression":"TM1IGNORE_BADTUPLES {HIERARCHIZE(TM1SUBSETALL([plan_business_unit]))}"
+}

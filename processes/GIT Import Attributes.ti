@@ -1,0 +1,29 @@
+#region Prolog
+
+vDimLastCharacter = SCAN ( '.csv', pFile ) - 1;
+vDimension = SUBST ( pFile, 1, vDimLastCharacter );
+
+vAttributesDimension = '}ElementAttributes_' | vDimension;
+
+DataSourceType          = 'CHARACTERDELIMITED';
+DatasourceNameForServer = pDir | pFile;
+
+#endregion
+#region Data
+IF(vType @= 'AA');
+   IF(DIMIX(vAttributesDimension, vAttribute) = 0);
+       ATTRINSERT(vDimension, '', vAttribute ,'A');
+   ENDIF;
+   ATTRPUTS(value, vDimension, vElement, vAttribute);
+ELSEIF(vType @= 'AS');
+   IF(DIMIX(vAttributesDimension, vAttribute) = 0);
+       ATTRINSERT(vDimension, '', vAttribute ,'S');
+   ENDIF;
+   ATTRPUTS (value, vDimension, vElement, vAttribute);
+ELSEIF(vType @= 'AN');
+   IF(DIMIX(vAttributesDimension, vAttribute) = 0);
+       ATTRINSERT(vDimension, '', vAttribute ,'N');
+   ENDIF;
+   ATTRPUTN(StringToNumber(value), vDimension, vElement, vAttribute);
+ENDIF;
+#endregion

@@ -1,0 +1,44 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ModelControl",
+	"Elements":
+	[
+		{
+			"Name":"BOX Folder URL",
+			"Type":"String"
+		},
+		{
+			"Name":"BOX Parent Folder ID",
+			"Type":"String"
+		},
+		{
+			"Name":"BOX Last Export Folder ID",
+			"Type":"String"
+		},
+		{
+			"Name":"Model Base URL",
+			"Type":"String"
+		},
+		{
+			"Name":"PAW Base URL",
+			"Type":"String"
+		},
+		{
+			"Name":"Tenant ID",
+			"Type":"String"
+		},
+		{
+			"Name":"Model Name",
+			"Type":"String"
+		},
+		{
+			"Name":"Current Time",
+			"Type":"String"
+		},
+		{
+			"Name":"Base URL",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

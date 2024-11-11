@@ -1,0 +1,11 @@
+{
+	"@type":"Subset",
+	"Name":"Goal",
+	"Alias":"Source",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_source')/Hierarchies('plan_source')/Elements('goal')"
+		}
+	]
+}

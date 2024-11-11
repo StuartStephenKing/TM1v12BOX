@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"Default",
+	"Alias":"BusinessUnit",
+	"Expression":"TM1SubsetAll([plan_business_unit])"
+}

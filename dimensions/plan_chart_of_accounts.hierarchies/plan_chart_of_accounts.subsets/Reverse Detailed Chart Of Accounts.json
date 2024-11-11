@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"Reverse Detailed Chart Of Accounts",
+	"Alias":"AccountName",
+	"Expression":"TM1SubsetAll([plan_chart_of_accounts])"
+}

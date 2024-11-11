@@ -1,0 +1,55 @@
+#region Prolog
+vExportFile = pDir | pCube | '.csv';
+vView       = 'GIT';
+
+vDimCount = CubeDimensionCountGet ( pCube );
+vIndex    = 1;
+vDim      = TABDIM ( pCube, vIndex );
+VIEWCREATE ( pCube, vView, 1 );
+WHILE (vDim @<> '');
+    ViewColumnDimensionSet( pCube, vView, vDim, vIndex );
+    IF ( SubsetExists( vDim, vView ) = 0 );
+        subsetMDX = 'TM1FILTERBYLEVEL({{[' | vDim | '].[' | vDim | '].MEMBERS}}, 0)';
+        SubsetCreateByMDX ( vView, subsetMDX, vDim, 1 );
+    ENDIF;
+    ViewSubsetAssign ( pCube, vView, vDim, vView );
+    vIndex = vIndex + 1;
+    vDim   = TABDIM(pCube, vIndex);
+END;
+
+DataSourceType='VIEW';
+DatasourceNameForServer=pCube;
+DatasourceCubeview=vView;
+
+ViewExtractSkipCalcsSet ( pCube, vView, 1 );
+ViewExtractSkipRuleValuesSet ( pCube, vView, 1 );
+ViewExtractSkipZeroesSet ( pCube, vView, 1 );
+
+#endregion
+#region Data
+
+IF (vDimCount = 2);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3 );
+ELSEIF (vDimCount = 3);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4 );
+ELSEIF (vDimCount = 4);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5 );
+ELSEIF (vDimCount = 5);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6 );
+ELSEIF (vDimCount = 6);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7 );
+ELSEIF (vDimCount = 7);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8 );
+ELSEIF (vDimCount = 8);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9 );
+ELSEIF (vDimCount = 9);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10 );
+ELSEIF (vDimCount = 10);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11 );
+ELSEIF (vDimCount = 11);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12 );
+ELSEIF (vDimCount = 12);
+   ASCIIOUTPUT (vExportFile, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13 );
+ENDIF;
+
+#endregion

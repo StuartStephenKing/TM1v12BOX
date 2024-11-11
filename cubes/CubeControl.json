@@ -1,0 +1,17 @@
+{
+	"@type":"Cube",
+	"Name":"CubeControl",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('}Cubes')"
+		},
+		{
+			"@id":"Dimensions('Control')"
+		}
+	],
+	"Views@Code.links":
+	[
+		"CubeControl.views/Default.json"
+	]
+}

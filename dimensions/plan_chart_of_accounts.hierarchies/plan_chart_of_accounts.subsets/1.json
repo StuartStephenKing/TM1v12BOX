@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"1",
+	"Alias":"AccountName",
+	"Expression":"TM1IGNORE_BADTUPLES {DRILLDOWNMEMBER([plan_chart_of_accounts].[plan_chart_of_accounts].LEVELS(0).MEMBERS , {[plan_chart_of_accounts].[plan_chart_of_accounts].[Net Operating Income]} , RECURSIVE)}"
+}

@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"t1",
+	"Alias":"BusinessUnit",
+	"Expression":"TM1IGNORE_BADTUPLES {HIERARCHIZE(EXCEPT(TM1SUBSETALL([plan_business_unit]) , {[plan_business_unit].[plan_business_unit].[10200]}))}"
+}

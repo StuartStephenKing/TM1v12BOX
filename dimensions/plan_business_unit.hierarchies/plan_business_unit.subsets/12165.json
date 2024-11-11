@@ -1,0 +1,17 @@
+{
+	"@type":"Subset",
+	"Name":"12165",
+	"Alias":"BusinessUnit",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10200')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10210')"
+		},
+		{
+			"@id":"Dimensions('plan_business_unit')/Hierarchies('plan_business_unit')/Elements('10220')"
+		}
+	]
+}

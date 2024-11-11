@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"rk2",
+	"Alias":"BusinessUnit_Turkish",
+	"Expression":"TM1IGNORE_BADTUPLES {DESCENDANTS({[plan_business_unit].[plan_business_unit].DEFAULTMEMBER} , 1 , SELF_AND_BEFORE)}"
+}

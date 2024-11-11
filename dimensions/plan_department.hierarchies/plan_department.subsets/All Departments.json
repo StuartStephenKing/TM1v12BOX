@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"All Departments",
+	"Alias":"Department",
+	"Expression":"{ HIERARCHIZE( {TM1SUBSETALL( [plan_department] )} ) }"
+}

@@ -1,0 +1,72 @@
+{
+	"@type":"Process",
+	"Name":"GIT Import Attributes",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"GIT Import Attributes.ti",
+	"DataSource":
+	{
+		"Type":"ASCII",
+		"dataSourceNameForServer":"file.dat",
+		"dataSourceNameForClient":"",
+		"asciiHeaderRecords":0,
+		"asciiQuoteCharacter":"\"",
+		"asciiDecimalSeparator":".",
+		"asciiThousandSeparator":",",
+		"asciiDelimiterType":"Character",
+		"asciiDelimiterChar":","
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pFile",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pDir",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":
+	[
+		{
+			"Name":"vType",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":2,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vAttribute",
+			"Type":"String",
+			"Position":3,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"value",
+			"Type":"String",
+			"Position":4,
+			"StartByte":0,
+			"EndByte":0
+		}
+	],
+	"UID": "171776987100049",
+	"VariablesUIData": [
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f"
+	],
+	"UIData": "_ParameterConstraints=e30=\f"
+}

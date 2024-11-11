@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"13",
+	"Alias":"AccountName",
+	"Expression":"TM1IGNORE_BADTUPLES {TM1SUBSETALL([plan_chart_of_accounts])}"
+}

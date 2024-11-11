@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"} plan subset",
+	"Expression":"TM1IGNORE_BADTUPLES {[plan_business_unit].[plan_business_unit].MEMBERS}"
+}

@@ -1,0 +1,7 @@
+{
+	"@type":"Subset",
+	"Name":"2003 Quarters totals tr",
+	"ExpandAbove":true,
+	"Alias":"Time",
+	"Expression":"TM1IGNORE_BADTUPLES {[plan_time].[plan_time].[Q1-2003],DRILLDOWNMEMBER({[plan_time].[plan_time].[Q2-2003]} , {[plan_time].[plan_time].[Q2-2003]} , RECURSIVE),[plan_time].[plan_time].[Q3-2003],[plan_time].[plan_time].[Q4-2003],[plan_time].[plan_time].[2003]}"
+}
